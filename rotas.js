@@ -5,17 +5,17 @@ const livros = require('./controladores/livros');
 const rotas = express();
 
 //autores
-rotas.get('/autores');
-rotas.get('/autores/:id');
-rotas.post('/autores');
-rotas.put('/autores/:id');
-rotas.delete('autores/:id');
+rotas.get('/autores', autores.listarAutores);
+rotas.get('/autores/:id', autores.obterAutor);
+rotas.post('/autores', autores.cadastrarAutor);
+rotas.put('/autores/:id', autores.atualizarAutor);
+rotas.delete('/autores/:id', autores.excluirAutor);
 
 //livros
-rotas.get('/livros');
-rotas.get('/livros/:id');
-rotas.post('/livros');
-rotas.put('/livros/:id');
-rotas.delete('livros/:id');
+rotas.get('/livros', livros.listarLivros);
+rotas.get('/livros/:id', livros.obterLivros);
+rotas.post('/livros', livros.cadastrarLivros);
+rotas.put('/livros/:id', livros.atualizarLivros);
+rotas.delete('livros/:id', livros.excluirLivros);
 
 module.exports = rotas;

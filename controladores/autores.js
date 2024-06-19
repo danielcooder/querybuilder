@@ -1,5 +1,8 @@
-const listarAutores = async (req, res) => {
+const conexao = require('../conexao');
 
+const listarAutores = async (req, res) => {
+    const livros = await conexao.query('select * from livros');
+    res.json(livros);
 }
 
 const obterAutor = async (req, res) => {
