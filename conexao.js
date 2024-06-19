@@ -1,6 +1,6 @@
 const { text } = require('express');
 const { Pool } = require('pg');
-const { param } = require('./rotas');
+const { params } = require('./rotas');
 
 const pool = new Pool({
     user: 'postgres',
