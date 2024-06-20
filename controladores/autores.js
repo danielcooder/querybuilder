@@ -6,7 +6,7 @@ const listarAutores = async (req, res) => {
 
         return res.status(200).json(autores);
     } catch (erro) {
-        return res.status(400).json(erro.message);
+        return res.status(400).json(error.message);
     }
 }
 
@@ -22,13 +22,35 @@ const obterAutor = async (req, res) => {
         }
 
         return res.status(200).json(autor.rows[0]);
-    } catch (erro) {
-        return res.status(400).json(erro.message);
+    } catch (error) {
+        return res.status(400).json(error.message);
     }
 
 }
 
 const cadastrarAutor = async (req, res) => {
+
+    const { nome, idade } = req.body;
+
+    if (!nome) {
+        return res.status(400).json("O campo nome é obrigatório.")
+    }
+
+    try {
+
+        const query = 'insert into autores (nome, idade) values ($1, $2)';
+
+        const autor = await conexao.query(query, [nome, idade]);
+        if (autor.rowCount === 0) {
+            return res.status(400).json('Não foi possivel cadastrar o autor');
+        }
+
+        return res.status(200).json('Autor cadastrado com sucesso!')
+
+    } catch (error) {
+        return res.status(400).json(error.message);
+    }
+
 
 }
 
