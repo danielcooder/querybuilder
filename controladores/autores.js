@@ -85,6 +85,29 @@ const atualizarAutor = async (req, res) => {
 
 const excluirAutor = async (req, res) => {
 
+    const { id } = req.params;
+
+    try {
+        const autor = await conexao.query('select * from autores  where id = $1', [id]);
+
+        if (autor.rowCount === 0) {
+            return res.status(404).json('Autor não encontrado.')
+        }
+
+        const query = 'delete from autores where id = $1';
+        const autorExcluido = await conexao.query(query, [id]);
+
+        if (autorExcluido.rowCount === 0) {
+            return res.status(404).json('Não foi possivel excluir o autor')
+        }
+
+        return res.status(200).json('Autor foi excluido com sucesso.');
+    } catch (error) {
+        return res.status(400).json(error.message);
+    }
+
+
+
 }
 
 module.exports = {
