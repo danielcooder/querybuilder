@@ -2,11 +2,6 @@ const conexao = require('../conexao');
 
 const listarAutores = async (req, res) => {
 
-    //const query = `
-    // SELECT l.id, a.nome AS nome_autor, l.nome, l.genero, l.editora, l.data_publicacao 
-    // FROM livros l
-    //LEFT JOIN autores a ON l.autor_id = a.id `;
-
     try {
         const { rows: autores } = await conexao.query('select * from autores');
 
