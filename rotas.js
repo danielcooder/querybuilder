@@ -1,6 +1,7 @@
 const express = require('express');
 const autores = require('./controladores/autores');
 const livros = require('./controladores/livros');
+const usuarios = require('./controladores/usuarios');
 
 const rotas = express();
 
@@ -17,5 +18,8 @@ rotas.get('/livros/:id', livros.obterLivros);
 rotas.post('/livros', livros.cadastrarLivros);
 rotas.put('/livros/:id', livros.atualizarLivros);
 rotas.delete('/livros/:id', livros.excluirLivros);
+
+//usuarios
+rotas.post('/cadastrar', usuarios.cadastrarUsuario)
 
 module.exports = rotas;
