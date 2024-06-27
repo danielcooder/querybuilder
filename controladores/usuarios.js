@@ -1,50 +1,45 @@
-const conexao = require("../conexao")
+const conexao = require("../conexao");
+const SecurePassword = require("secure-password");
+
+const pwd = new SecurePassword();
 
 const cadastrarUsuario = async (req, res) => {
+  const { nome, email, senha } = req.body;
 
-    const { nome, email, senha } = req.body;
+  if (!nome) {
+    return res.status(400).json("O campo nome é obrigatório.");
+  }
 
-    if (!nome) {
-        return res.status(400).json("O campo nome é obrigatório.")
+  if (!email) {
+    return res.status(400).json("O campo email é obrigatório.");
+  }
+
+  if (!senha) {
+    return res.status(400).json("O campo senha é obrigatório.");
+  }
+
+  try {
+    const hashBuffer = await pwd.hash(Buffer.from(senha)); 
+    const hash = hashBuffer.toString("hex");
+
+    const query = 'select * from usuarios where email = $1';
+    const { rowCount } = await conexao.query(query, [email]);
+
+    if (rowCount > 0) {
+      return res.status(400).json("Este email já foi cadastrado.");
     }
 
-    if (!email) {
-        return res.status(400).json("O campo nome é obrigatório.")
+    const insertQuery = 'insert into usuarios (nome, email, senha) values ($1, $2, $3)';
+    const result = await conexao.query(insertQuery, [nome, email, hash]);
+
+    if (result.rowCount === 0) {
+      return res.status(400).json('Não foi possível cadastrar o usuário.');
     }
 
-    if (!senha) {
-        return res.status(400).json("O campo nome é obrigatório.")
-    }
-
-    try {
-
-        const query = 'select * from usuarios where email = $1';
-        const usuarios = await conexao.query(query, [email]);
-
-        if (usuarios.rowCount > 0) {
-
-            return res.status(400).json("Este email já foi cadastrado.")
-        }
-
-    } catch (error) {
-        return res.status(400).json(error.message);
-    }
-
-    try {
-
-        const query = 'insert into usuarios (nome, email, senha) values ($1, $2, $3)';
-        const usuarios = await conexao.query(query, [nome, email, senha]);
-
-        if (usuarios.rowCount === 0) {
-            return res.status(400).json('Não foi possivel cadastrar o usuario');
-        }
-
-        return res.status(200).json('Usuario cadastrado com sucesso!')
-
-    } catch (error) {
-        return res.status(400).json(error.message);
-    }
-
-}
+    return res.status(200).json('Usuário cadastrado com sucesso!');
+  } catch (error) {
+    return res.status(400).json(error.message);
+  }
+};
 
 module.exports = { cadastrarUsuario };
