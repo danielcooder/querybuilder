@@ -20,6 +20,7 @@ rotas.put('/livros/:id', livros.atualizarLivros);
 rotas.delete('/livros/:id', livros.excluirLivros);
 
 //usuarios
-rotas.post('/cadastrar', usuarios.cadastrarUsuario)
+rotas.post('/cadastrar', usuarios.cadastrarUsuario);
+rotas.post('/login', usuarios.login);
 
 module.exports = rotas;
