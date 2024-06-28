@@ -17,7 +17,7 @@ rotas.get('/livros', livros.listarLivros);
 rotas.get('/livros/:id', livros.obterLivros);
 rotas.post('/livros', livros.cadastrarLivros);
 rotas.put('/livros/:id', livros.atualizarLivros);
-rotas.delete('/livros/:id', livros.excluirLivros);
+rotas.delete('/livros/:id', livros.excluirLivros);hhhjjjjjhjfbhkd
 
 //usuarios
 rotas.post('/cadastrar', usuarios.cadastrarUsuario);
