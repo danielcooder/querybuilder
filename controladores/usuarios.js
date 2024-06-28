@@ -1,7 +1,8 @@
 
 const conexao = require("../conexao");
 const SecurePassword = require("secure-password");
-
+const jwt = require ("jsonwebtoken");
+const jtw_Secret = require("../jwt_secret");
 const pwd = new SecurePassword();
 
 const cadastrarUsuario = async (req, res) => {
@@ -91,13 +92,18 @@ try {
 
 }
 
-return res.json(`Tudo certo! Seja bem vindo, ${usuario.nome}`);
+const token = jwt.sign({
+ id: usuario.id,
+ nome: usuario.nome,
+ email: usuario.email
+}, jtw_Secret );
+
+return res.send(token);
 
 } catch (error) {
 
     return res.status(400).json(error.message);
 }
-
 
 }
 
