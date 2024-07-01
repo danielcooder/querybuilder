@@ -1,8 +1,8 @@
 
 const conexao = require("../conexao");
 const SecurePassword = require("secure-password");
-const jwt = require ("jsonwebtoken");
-const jtw_Secret = require("../jwt_secret");
+const jwt = require ('jsonwebtoken');
+const jwt_Secret = require("../jwt_secret");
 const pwd = new SecurePassword();
 
 const cadastrarUsuario = async (req, res) => {
@@ -42,8 +42,8 @@ const cadastrarUsuario = async (req, res) => {
   } catch (error) {
     return res.status(400).json(error.message);
   }
-};
 
+};
 
 
 const login = async (req, res) => {
@@ -96,7 +96,11 @@ const token = jwt.sign({
  id: usuario.id,
  nome: usuario.nome,
  email: usuario.email
-}, jtw_Secret );
+}, jwt_Secret, {
+
+  expiresIn: "2h"
+  
+});
 
 return res.send(token);
 
@@ -109,4 +113,4 @@ return res.send(token);
 
 
 
-module.exports = { cadastrarUsuario, login};
+module.exports = { cadastrarUsuario, login} ;
